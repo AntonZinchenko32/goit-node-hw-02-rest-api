@@ -4,6 +4,7 @@ const forPosting = Joi.object({
   name: Joi.required(),
   email: Joi.required(),
   phone: Joi.required(),
+  favorite: Joi.boolean(),
 });
 
 const forPuting = Joi.object({
