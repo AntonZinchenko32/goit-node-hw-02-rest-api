@@ -1,19 +1,20 @@
 const Joi = require("joi");
 
-const forPosting = Joi.object({
+const joiForPosting = Joi.object({
   name: Joi.required(),
   email: Joi.required(),
   phone: Joi.required(),
   favorite: Joi.boolean(),
 });
 
-const forPuting = Joi.object({
+const joiForPuting = Joi.object({
   name: Joi.string(),
   email: Joi.string(),
   phone: Joi.alternatives().try(Joi.string(), Joi.number()),
-}).or("name", "email", "phone");
+  favorite: Joi.boolean(),
+}).or("name", "email", "phone", "favorite");
 
 module.exports = {
-  forPosting,
-  forPuting,
+  joiForPosting,
+  joiForPuting,
 };

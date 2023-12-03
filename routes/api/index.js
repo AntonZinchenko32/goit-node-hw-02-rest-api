@@ -3,13 +3,7 @@ const express = require("express");
 const router = express.Router();
 const controllers = require("../../controllers");
 
-const {
-  get,
-  getById,
-  create,
-  remove,
-  // updateContact,
-} = controllers;
+const { get, getById, create, remove, update } = controllers;
 
 router.get("/", get);
 
@@ -19,6 +13,6 @@ router.post("/", create);
 
 router.delete("/:id", remove);
 
-// router.put("/:contactId", updateContact);
+router.put("/:id", update);
 
 module.exports = router;

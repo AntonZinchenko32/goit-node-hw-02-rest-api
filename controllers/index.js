@@ -4,9 +4,14 @@ const validationSchema = require("../service/schemas/schema-joi");
 // const { Parcer, fileReader, fileWriter, handleContactUpdate } = helpers;
 
 const service = require("../service");
-const { forPosting } = validationSchema;
-const { getAllcontacts, getContactById, removeContact, createContact } =
-  service;
+const { joiForPosting, joiForPuting } = validationSchema;
+const {
+  getAllcontacts,
+  getContactById,
+  removeContact,
+  createContact,
+  updateContact,
+} = service;
 
 const get = async (req, res, next) => {
   try {
@@ -69,7 +74,7 @@ const remove = async (req, res) => {
 };
 
 const create = async (req, res, next) => {
-  const { error, value } = forPosting.validate(req.body);
+  const { error, value } = joiForPosting.validate(req.body);
 
   if (error)
     res.status(400).json({
@@ -90,34 +95,40 @@ const create = async (req, res, next) => {
   }
 };
 
-// const updateContact = async (req, res) => {
-//   const { error, value } = forPuting.validate(req.body);
-
-//   if (error)
-//     res.status(400).json({
-//       status: 400,
-//       message: "missing fields",
-//     });
-//   else {
-//     const updatedContact = await handleContactUpdate(req, contactsPath, value);
-
-//     if (updatedContact)
-//       res.json({
-//         status: 200,
-//         updatedContact,
-//       });
-//     else
-//       res.status(404).json({
-//         status: 404,
-//         message: "Not found",
-//       });
-//   }
-// };
+const update = async (req, res) => {
+  const { error, value } = joiForPuting.validate(req.body);
+  const { id } = req.params;
+  if (error)
+    res.status(400).json({
+      status: 400,
+      message: "missing fields",
+    });
+  else {
+    try {
+      const updatedContact = await updateContact(id, value);
+      if (updatedContact)
+        res.json({
+          status: 200,
+          updatedContact,
+        });
+      else
+        res.status(404).json({
+          status: 404,
+          message: "Not found",
+        });
+    } catch (e) {
+      res.status(400).json({
+        status: 400,
+        message: e.message,
+      });
+    }
+  }
+};
 
 module.exports = {
   get,
   getById,
   remove,
   create,
-  // updateContact,
+  update,
 };
