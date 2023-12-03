@@ -1,7 +1,4 @@
 const validationSchema = require("../service/schemas/schema-joi");
-// const helpers = require("./helpers");
-
-// const { Parcer, fileReader, fileWriter, handleContactUpdate } = helpers;
 
 const service = require("../service");
 const { joiForPosting, joiForPuting } = validationSchema;
