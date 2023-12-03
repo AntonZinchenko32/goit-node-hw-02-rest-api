@@ -21,7 +21,7 @@ const get = async (req, res, next) => {
   }
 };
 
-const getById = async (req, res, next) => {
+const getById = async (req, res) => {
   const { id } = req.params;
   try {
     const contactFound = await getContactById(id);
@@ -37,12 +37,14 @@ const getById = async (req, res, next) => {
         message: "Not found",
       });
   } catch (e) {
-    console.error(e);
-    next(e);
+    res.status(400).json({
+      status: 400,
+      message: e.message,
+    });
   }
 };
 
-const remove = async (req, res, next) => {
+const remove = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -59,8 +61,10 @@ const remove = async (req, res, next) => {
         message: "Not found",
       });
   } catch (e) {
-    console.error(e);
-    next(e);
+    res.status(400).json({
+      status: 400,
+      message: e.message,
+    });
   }
 };
 
