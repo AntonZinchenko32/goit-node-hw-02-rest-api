@@ -1,14 +1,21 @@
-const validationSchema = require("../service/schemas/schema-joi");
+const {
+  joiForPosting,
+  joiForPuting,
+  joiForPatching,
+} = require("../service/schemas/schema-joi");
 
-const service = require("../service");
-const { joiForPosting, joiForPuting, joiForPatching } = validationSchema;
+const {
+  notFoundResponse,
+  invalidIdErrorResponse,
+  updateContactFields,
+} = require("./helpers");
+
 const {
   getAllcontacts,
   getContactById,
   removeContact,
   createContact,
-  updateContact,
-} = service;
+} = require("../service");
 
 const get = async (req, res, next) => {
   try {
@@ -33,16 +40,9 @@ const getById = async (req, res) => {
         status: 200,
         contactFound,
       });
-    else
-      res.status(404).json({
-        status: 404,
-        message: "Not found",
-      });
+    else notFoundResponse(res);
   } catch (e) {
-    res.status(400).json({
-      status: 400,
-      message: e.message,
-    });
+    invalidIdErrorResponse(e, res);
   }
 };
 
@@ -57,16 +57,9 @@ const remove = async (req, res) => {
         status: 200,
         message: "contact deleted",
       });
-    } else
-      res.status(404).json({
-        status: 404,
-        message: "Not found",
-      });
+    } else notFoundResponse(res);
   } catch (e) {
-    res.status(400).json({
-      status: 400,
-      message: e.message,
-    });
+    invalidIdErrorResponse(e, res);
   }
 };
 
@@ -100,26 +93,7 @@ const update = async (req, res) => {
       status: 400,
       message: "missing fields",
     });
-  else {
-    try {
-      const updatedContact = await updateContact(id, value);
-      if (updatedContact)
-        res.json({
-          status: 200,
-          updatedContact,
-        });
-      else
-        res.status(404).json({
-          status: 404,
-          message: "Not found",
-        });
-    } catch (e) {
-      res.status(400).json({
-        status: 400,
-        message: e.message,
-      });
-    }
-  }
+  else updateContactFields(id, value, res);
 };
 
 const updateStatus = async (req, res) => {
@@ -130,26 +104,7 @@ const updateStatus = async (req, res) => {
       status: 400,
       message: "missing field favorite",
     });
-  else {
-    try {
-      const updatedContact = await updateContact(id, value);
-      if (updatedContact)
-        res.json({
-          status: 200,
-          updatedContact,
-        });
-      else
-        res.status(404).json({
-          status: 404,
-          message: "Not found",
-        });
-    } catch (e) {
-      res.status(400).json({
-        status: 400,
-        message: e.message,
-      });
-    }
-  }
+  else updateContactFields(id, value, res);
 };
 
 module.exports = {
