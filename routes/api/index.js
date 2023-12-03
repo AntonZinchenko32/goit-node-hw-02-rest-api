@@ -6,7 +6,7 @@ const controllers = require("../../controllers");
 const {
   get,
   getById,
-  // addContact,
+  create,
   remove,
   // updateContact,
 } = controllers;
@@ -15,7 +15,7 @@ router.get("/", get);
 
 router.get("/:id", getById);
 
-// router.post("/", addContact);
+router.post("/", create);
 
 router.delete("/:id", remove);
 

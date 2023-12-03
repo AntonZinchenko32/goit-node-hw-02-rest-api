@@ -1,12 +1,12 @@
-// const { nanoid } = require("nanoid");
-
-// const validationSchema = require("../service/schemas");
+const validationSchema = require("../service/schemas/schema-joi");
 // const helpers = require("./helpers");
 
 // const { Parcer, fileReader, fileWriter, handleContactUpdate } = helpers;
 
 const service = require("../service");
-const { getAllcontacts, getContactById, removeContact } = service;
+const { forPosting } = validationSchema;
+const { getAllcontacts, getContactById, removeContact, createContact } =
+  service;
 
 const get = async (req, res, next) => {
   try {
@@ -68,34 +68,27 @@ const remove = async (req, res) => {
   }
 };
 
-// const addContact = async (req, res) => {
-// const { error, value } = forPosting.validate(req.body);
-// const data = await fileReader(contactsPath);
+const create = async (req, res, next) => {
+  const { error, value } = forPosting.validate(req.body);
 
-// if (error)
-//   res.status(400).json({
-//     status: 400,
-//     message: "missing required name field",
-//   });
-// else {
-//   const newContact = {
-//     id: nanoid(),
-//     ...value,
-//   };
-//   const updatedArr = [...Parcer(data), newContact];
-//   await fileWriter(contactsPath, JSON.stringify(updatedArr));
-//   res.status(201).json({
-//     status: 201,
-//     newContact,
-//   });
-// }
-
-//   const data = await service.createContact(req.body);
-//   res.status(201).json({
-//     status: 201,
-//     data,
-//   });
-// };
+  if (error)
+    res.status(400).json({
+      status: 400,
+      message: "missing required name field",
+    });
+  else {
+    try {
+      const newContact = await createContact(value);
+      res.status(201).json({
+        status: 201,
+        newContact,
+      });
+    } catch (e) {
+      console.error(e);
+      next(e);
+    }
+  }
+};
 
 // const updateContact = async (req, res) => {
 //   const { error, value } = forPuting.validate(req.body);
@@ -125,6 +118,6 @@ module.exports = {
   get,
   getById,
   remove,
-  // addContact,
+  create,
   // updateContact,
 };
