@@ -1,7 +1,7 @@
 const validationSchema = require("../service/schemas/schema-joi");
 
 const service = require("../service");
-const { joiForPosting, joiForPuting } = validationSchema;
+const { joiForPosting, joiForPuting, joiForPatching } = validationSchema;
 const {
   getAllcontacts,
   getContactById,
@@ -122,10 +122,41 @@ const update = async (req, res) => {
   }
 };
 
+const updateStatus = async (req, res) => {
+  const { error, value } = joiForPatching.validate(req.body);
+  const { id } = req.params;
+  if (error)
+    res.status(400).json({
+      status: 400,
+      message: "missing field favorite",
+    });
+  else {
+    try {
+      const updatedContact = await updateContact(id, value);
+      if (updatedContact)
+        res.json({
+          status: 200,
+          updatedContact,
+        });
+      else
+        res.status(404).json({
+          status: 404,
+          message: "Not found",
+        });
+    } catch (e) {
+      res.status(400).json({
+        status: 400,
+        message: e.message,
+      });
+    }
+  }
+};
+
 module.exports = {
   get,
   getById,
   remove,
   create,
   update,
+  updateStatus,
 };
