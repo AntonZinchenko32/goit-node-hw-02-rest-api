@@ -1,4 +1,4 @@
-const { joiForPosting } = require("../../service/schemas/schema-joi");
+const { joiForPosting } = require("../../service/schemas");
 const { createContact } = require("../../service");
 
 const create = async (req, res, next) => {

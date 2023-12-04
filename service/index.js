@@ -1,4 +1,4 @@
-const Contact = require("./schemas/schema-mongoose");
+const Contact = require("./schemas");
 
 const getAllContacts = () => {
   return Contact.find();

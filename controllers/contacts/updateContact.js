@@ -1,7 +1,4 @@
-const {
-  joiForPuting,
-  joiForPatching,
-} = require("../../service/schemas/schema-joi");
+const { joiForPuting, joiForPatching } = require("../../service/schemas");
 const { updateContactFields } = require("../../helpers");
 
 const update = async (req, res) => {

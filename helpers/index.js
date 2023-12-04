@@ -1,4 +1,4 @@
-const { updateContact } = require("../service/index");
+const { updateContact } = require("../service");
 
 const notFoundResponse = (res) =>
   res.status(404).json({
