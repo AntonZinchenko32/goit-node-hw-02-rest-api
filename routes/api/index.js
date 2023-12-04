@@ -10,14 +10,15 @@ const {
   update,
   updateStatus,
 } = require("../../controllers/contacts");
+const { errorWrapper, errorWrapperWithIdCheck } = require("../../helpers");
 
-router.get("/", get);
+router.get("/", errorWrapper(get));
 
-router.get("/:id", getById);
+router.get("/:id", errorWrapperWithIdCheck(getById));
 
-router.post("/", create);
+router.post("/", errorWrapper(create));
 
-router.delete("/:id", remove);
+router.delete("/:id", errorWrapperWithIdCheck(remove));
 
 router.put("/:id", update);
 
