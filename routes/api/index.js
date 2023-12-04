@@ -10,6 +10,7 @@ const {
   update,
   updateStatus,
 } = require("../../controllers/contacts");
+
 const { errorWrapper, errorWrapperWithIdCheck } = require("../../helpers");
 
 router.get("/", errorWrapper(get));
