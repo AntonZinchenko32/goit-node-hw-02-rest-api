@@ -1,17 +1,33 @@
 const { updateContact } = require("../service");
 
-const notFoundResponse = (res) =>
-  res.status(404).json({
-    status: 404,
-    message: "Not found",
-  });
-
 const invalidIdErrorResponse = (error, res) => {
   res.status(400).json({
     status: 400,
     message: error.message,
   });
 };
+
+const errorWrapper = (func) => async (req, res, next) => {
+  try {
+    await func(req, res);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+};
+const errorWrapperWithIdCheck = (func) => async (req, res) => {
+  try {
+    await func(req, res);
+  } catch (e) {
+    invalidIdErrorResponse(e, res);
+  }
+};
+
+const notFoundResponse = (res) =>
+  res.status(404).json({
+    status: 404,
+    message: "Not found",
+  });
 
 const updateContactFields = async (id, body, res) => {
   try {
@@ -31,4 +47,6 @@ module.exports = {
   notFoundResponse,
   invalidIdErrorResponse,
   updateContactFields,
+  errorWrapper,
+  errorWrapperWithIdCheck,
 };

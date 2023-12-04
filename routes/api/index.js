@@ -11,13 +11,15 @@ const {
   updateStatus,
 } = require("../../controllers/contacts");
 
-router.get("/", get);
+const { errorWrapper, errorWrapperWithIdCheck } = require("../../helpers");
 
-router.get("/:id", getById);
+router.get("/", errorWrapper(get));
 
-router.post("/", create);
+router.get("/:id", errorWrapperWithIdCheck(getById));
 
-router.delete("/:id", remove);
+router.post("/", errorWrapper(create));
+
+router.delete("/:id", errorWrapperWithIdCheck(remove));
 
 router.put("/:id", update);
 
