@@ -1,9 +1,14 @@
 const express = require("express");
 
 const router = express.Router();
-const controllers = require("../../controllers");
-
-const { get, getById, create, remove, update, updateStatus } = controllers;
+const {
+  get,
+  getById,
+  create,
+  remove,
+  update,
+  updateStatus,
+} = require("../../controllers");
 
 router.get("/", get);
 
