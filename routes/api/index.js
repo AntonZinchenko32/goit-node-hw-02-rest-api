@@ -2,12 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 
-const { get } = require("../../controllers/contacts/getAllContacts");
-const { getById } = require("../../controllers/contacts/getContactById");
-const { remove } = require("../../controllers/contacts/removeContact");
-const { create } = require("../../controllers/contacts/addContact");
-const { update } = require("../../controllers/contacts/updateContact");
-const { updateStatus } = require("../../controllers/contacts/updateContact");
+const {
+  get,
+  getById,
+  remove,
+  create,
+  update,
+  updateStatus,
+} = require("../../controllers/contacts");
 
 router.get("/", get);
 
