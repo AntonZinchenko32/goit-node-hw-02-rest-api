@@ -2,24 +2,24 @@ const {
   joiForPosting,
   joiForPuting,
   joiForPatching,
-} = require("../service/schemas/schema-joi");
+} = require("../../service/schemas/schema-joi");
 
 const {
   notFoundResponse,
   invalidIdErrorResponse,
   updateContactFields,
-} = require("./helpers");
+} = require("../../helpers");
 
 const {
-  getAllcontacts,
+  getAllContacts,
   getContactById,
   removeContact,
   createContact,
-} = require("../service");
+} = require("../../service");
 
 const get = async (req, res, next) => {
   try {
-    const data = await getAllcontacts();
+    const data = await getAllContacts();
     res.json({
       status: 200,
       data,
