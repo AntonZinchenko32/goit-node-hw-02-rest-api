@@ -1,14 +1,15 @@
 const express = require("express");
 
 const router = express.Router();
+
 const {
   get,
   getById,
-  create,
   remove,
+  create,
   update,
   updateStatus,
-} = require("../../controllers");
+} = require("../../controllers/contacts");
 
 router.get("/", get);
 

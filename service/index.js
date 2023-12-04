@@ -1,6 +1,6 @@
-const Contact = require("./schemas/schema-mongoose");
+const { Contact } = require("./schemas");
 
-const getAllcontacts = () => {
+const getAllContacts = () => {
   return Contact.find();
 };
 const getContactById = (id) => {
@@ -16,7 +16,7 @@ const removeContact = (id) => {
   return Contact.findByIdAndDelete({ _id: id });
 };
 module.exports = {
-  getAllcontacts,
+  getAllContacts,
   getContactById,
   createContact,
   updateContact,

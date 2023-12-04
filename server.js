@@ -6,7 +6,7 @@ const {
   DB_MONGO_USER,
   DB_MONGO_PASSWORD,
   DB_MONGO_DATABASE,
-} = require("./constants/env");
+} = require("./constants");
 
 const PORT = process.env.PORT || 3000;
 

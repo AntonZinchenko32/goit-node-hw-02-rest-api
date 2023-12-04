@@ -1,0 +1,13 @@
+const {
+  DB_MONGO_HOST,
+  DB_MONGO_USER,
+  DB_MONGO_PASSWORD,
+  DB_MONGO_DATABASE,
+} = require("./env");
+
+module.exports = {
+  DB_MONGO_HOST,
+  DB_MONGO_USER,
+  DB_MONGO_PASSWORD,
+  DB_MONGO_DATABASE,
+};
