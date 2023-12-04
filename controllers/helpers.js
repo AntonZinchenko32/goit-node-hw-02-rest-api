@@ -1,50 +1,34 @@
-const fs = require("fs/promises");
-const { readFile, writeFile } = fs;
+const { updateContact } = require("../service/index");
 
-function Parcer(data) {
+const notFoundResponse = (res) =>
+  res.status(404).json({
+    status: 404,
+    message: "Not found",
+  });
+
+const invalidIdErrorResponse = (error, res) => {
+  res.status(400).json({
+    status: 400,
+    message: error.message,
+  });
+};
+
+const updateContactFields = async (id, body, res) => {
   try {
-    return JSON.parse(data);
-  } catch (error) {
-    console.log(error.message);
+    const updatedContact = await updateContact(id, body);
+    if (updatedContact)
+      res.json({
+        status: 200,
+        updatedContact,
+      });
+    else notFoundResponse(res);
+  } catch (e) {
+    invalidIdErrorResponse(e, res);
   }
-}
-
-async function fileReader(path) {
-  const data = await readFile(path).catch((e) => console.log(e.message));
-  return data;
-}
-async function fileWriter(path, payload) {
-  const data = await writeFile(path, payload).catch((e) =>
-    console.log(e.message)
-  );
-  return data;
-}
-
-async function handleContactUpdate(request, contactsPath, newData) {
-  const { contactId } = request.params;
-
-  const data = await fileReader(contactsPath);
-  const contactFound = Parcer(data).find((item) => item.id === contactId);
-
-  if (!contactFound) return null;
-
-  const filteredArr = Parcer(data).filter((item) => item.id !== contactId);
-
-  const updatedContact = {
-    ...contactFound,
-    ...newData,
-  };
-
-  const updatedArr = [...filteredArr, updatedContact];
-
-  await fileWriter(contactsPath, JSON.stringify(updatedArr));
-
-  return updatedContact;
-}
+};
 
 module.exports = {
-  Parcer,
-  fileReader,
-  fileWriter,
-  handleContactUpdate,
+  notFoundResponse,
+  invalidIdErrorResponse,
+  updateContactFields,
 };

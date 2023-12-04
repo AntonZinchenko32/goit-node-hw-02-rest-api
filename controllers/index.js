@@ -1,64 +1,70 @@
-const path = require("path");
-const { nanoid } = require("nanoid");
+const {
+  joiForPosting,
+  joiForPuting,
+  joiForPatching,
+} = require("../service/schemas/schema-joi");
 
-const validationSchema = require("../schemas");
-const helpers = require("./helpers");
+const {
+  notFoundResponse,
+  invalidIdErrorResponse,
+  updateContactFields,
+} = require("./helpers");
 
-const { Parcer, fileReader, fileWriter, handleContactUpdate } = helpers;
-const { forPosting, forPuting } = validationSchema;
+const {
+  getAllcontacts,
+  getContactById,
+  removeContact,
+  createContact,
+} = require("../service");
 
-const contactsPath = path.resolve(__dirname, "../models/contacts.json");
-
-const listContacts = async (req, res) => {
-  const data = await fileReader(contactsPath);
-  const parcedData = Parcer(data);
-  res.json({
-    status: 200,
-    parcedData,
-  });
-};
-
-const getContactById = async (req, res) => {
-  const { contactId } = req.params;
-  const data = await fileReader(contactsPath);
-
-  const contactFound = Parcer(data).find((item) => item.id === contactId);
-
-  if (contactFound)
+const get = async (req, res, next) => {
+  try {
+    const data = await getAllcontacts();
     res.json({
       status: 200,
-      contactFound,
+      data,
     });
-  else
-    res.status(404).json({
-      status: 404,
-      message: "Not found",
-    });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
 };
 
-const removeContact = async (req, res) => {
-  const { contactId } = req.params;
-  const data = await fileReader(contactsPath);
+const getById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const contactFound = await getContactById(id);
 
-  const contactFound = Parcer(data).find((item) => item.id === contactId);
-
-  if (contactFound) {
-    const filteredArray = Parcer(data).filter((item) => item.id !== contactId);
-    await fileWriter(contactsPath, JSON.stringify(filteredArray));
-    res.json({
-      status: 200,
-      message: "contact deleted",
-    });
-  } else
-    res.status(404).json({
-      status: 404,
-      message: "Not found",
-    });
+    if (contactFound)
+      res.json({
+        status: 200,
+        contactFound,
+      });
+    else notFoundResponse(res);
+  } catch (e) {
+    invalidIdErrorResponse(e, res);
+  }
 };
 
-const addContact = async (req, res) => {
-  const { error, value } = forPosting.validate(req.body);
-  const data = await fileReader(contactsPath);
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const contactFound = await removeContact(id);
+
+    if (contactFound) {
+      res.json({
+        status: 200,
+        message: "contact deleted",
+      });
+    } else notFoundResponse(res);
+  } catch (e) {
+    invalidIdErrorResponse(e, res);
+  }
+};
+
+const create = async (req, res, next) => {
+  const { error, value } = joiForPosting.validate(req.body);
 
   if (error)
     res.status(400).json({
@@ -66,47 +72,46 @@ const addContact = async (req, res) => {
       message: "missing required name field",
     });
   else {
-    const newContact = {
-      id: nanoid(),
-      ...value,
-    };
-    const updatedArr = [...Parcer(data), newContact];
-    await fileWriter(contactsPath, JSON.stringify(updatedArr));
-    res.status(201).json({
-      status: 201,
-      newContact,
-    });
+    try {
+      const newContact = await createContact(value);
+      res.status(201).json({
+        status: 201,
+        newContact,
+      });
+    } catch (e) {
+      console.error(e);
+      next(e);
+    }
   }
 };
 
-const updateContact = async (req, res) => {
-  const { error, value } = forPuting.validate(req.body);
-
+const update = async (req, res) => {
+  const { error, value } = joiForPuting.validate(req.body);
+  const { id } = req.params;
   if (error)
     res.status(400).json({
       status: 400,
       message: "missing fields",
     });
-  else {
-    const updatedContact = await handleContactUpdate(req, contactsPath, value);
+  else updateContactFields(id, value, res);
+};
 
-    if (updatedContact)
-      res.json({
-        status: 200,
-        updatedContact,
-      });
-    else
-      res.status(404).json({
-        status: 404,
-        message: "Not found",
-      });
-  }
+const updateStatus = async (req, res) => {
+  const { error, value } = joiForPatching.validate(req.body);
+  const { id } = req.params;
+  if (error)
+    res.status(400).json({
+      status: 400,
+      message: "missing field favorite",
+    });
+  else updateContactFields(id, value, res);
 };
 
 module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
+  get,
+  getById,
+  remove,
+  create,
+  update,
+  updateStatus,
 };
