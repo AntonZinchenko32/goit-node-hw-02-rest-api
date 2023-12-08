@@ -1,5 +1,5 @@
 const { joiForUserReg } = require("../../services/schemas");
-const { findUserByEmail } = require("../../services");
+const { findUserByEmail, updateUser } = require("../../services");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SECRET } = require("../../constants");
@@ -27,6 +27,8 @@ const logUser = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET, { expiresIn: "1h" });
+  await updateUser(id, { token });
+
   res.status(200).json({
     Status: "200 OK",
     "Content-Type": "application/json",

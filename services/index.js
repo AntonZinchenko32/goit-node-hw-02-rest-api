@@ -21,6 +21,9 @@ const findUserByEmail = (email) => {
 const createUser = (body) => {
   return User.create(body);
 };
+const updateUser = (id, fields) => {
+  return User.findByIdAndUpdate({ _id: id }, fields, { new: true });
+};
 module.exports = {
   getAllContacts,
   getContactById,
@@ -29,4 +32,5 @@ module.exports = {
   removeContact,
   findUserByEmail,
   createUser,
+  updateUser,
 };
