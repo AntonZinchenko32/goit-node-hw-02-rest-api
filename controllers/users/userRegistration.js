@@ -1,15 +1,13 @@
 const { joiForUserReg } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
+const { validationErrorResponse } = require("../../helpers");
 
 const regUser = async (req, res) => {
   const { error, value } = joiForUserReg.validate(req.body);
-  if (error)
-    return res.status(400).json({
-      Status: "400 Bad Request",
-      "Content-Type": "application/json",
-      ResponseBody: error.message,
-    });
+
+  validationErrorResponse(error, res);
+
   const userFound = await findUserByEmail(value.email);
   if (userFound)
     return res.status(409).json({

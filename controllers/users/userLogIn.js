@@ -3,20 +3,14 @@ const { findUserByEmail } = require("../../services");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SECRET } = require("../../constants");
+const { validationErrorResponse } = require("../../helpers");
 
 const logUser = async (req, res) => {
   const { error, value } = joiForUserReg.validate(req.body);
-  if (error)
-    return res.status(400).json({
-      Status: "400 Bad Request",
-      "Content-Type": "application/json",
-      ResponseBody: error.message,
-    });
 
+  validationErrorResponse(error, res);
   const userFound = await findUserByEmail(value.email);
-
   const { id, email, password, subscription } = userFound;
-
   const arePasswordEqual = await bcrypt.compare(value.password, password);
 
   if (!userFound || !arePasswordEqual)
@@ -26,6 +20,7 @@ const logUser = async (req, res) => {
         message: "Email or password is wrong",
       },
     });
+
   const payload = {
     id,
     email,

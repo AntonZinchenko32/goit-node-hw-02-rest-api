@@ -29,6 +29,15 @@ const notFoundResponse = (res) =>
     message: "Not found",
   });
 
+const validationErrorResponse = (error, res) => {
+  if (error)
+    return res.status(400).json({
+      Status: "400 Bad Request",
+      "Content-Type": "application/json",
+      ResponseBody: error.message,
+    });
+};
+
 const updateContactFields = async (id, body, res) => {
   try {
     const updatedContact = await updateContact(id, body);
@@ -49,4 +58,5 @@ module.exports = {
   updateContactFields,
   errorWrapper,
   errorWrapperWithIdCheck,
+  validationErrorResponse,
 };
