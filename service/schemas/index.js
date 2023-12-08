@@ -1,4 +1,17 @@
-const { joiForPosting, joiForPuting, joiForPatching } = require("./schema-joi");
-const Contact = require("./schema-mongoose");
+const {
+  joiForPosting,
+  joiForPuting,
+  joiForPatching,
+  joiForUserReg,
+} = require("./validation-joi");
+const Contact = require("./contact");
+const User = require("./user");
 
-module.exports = { joiForPosting, joiForPuting, joiForPatching, Contact };
+module.exports = {
+  joiForPosting,
+  joiForPuting,
+  joiForPatching,
+  joiForUserReg,
+  Contact,
+  User,
+};

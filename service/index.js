@@ -15,10 +15,14 @@ const updateContact = (id, fields) => {
 const removeContact = (id) => {
   return Contact.findByIdAndDelete({ _id: id });
 };
+const createUser = (body) => {
+  return body;
+};
 module.exports = {
   getAllContacts,
   getContactById,
   createContact,
   updateContact,
   removeContact,
+  createUser,
 };
