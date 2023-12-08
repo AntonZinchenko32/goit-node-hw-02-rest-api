@@ -7,8 +7,8 @@ const { validationErrorResponse } = require("../../helpers");
 
 const logUser = async (req, res) => {
   const { error, value } = joiForUserReg.validate(req.body);
-
   validationErrorResponse(error, res);
+
   const userFound = await findUserByEmail(value.email);
   const { id, email, password, subscription } = userFound;
   const arePasswordEqual = await bcrypt.compare(value.password, password);

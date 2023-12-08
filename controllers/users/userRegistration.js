@@ -5,7 +5,6 @@ const { validationErrorResponse } = require("../../helpers");
 
 const regUser = async (req, res) => {
   const { error, value } = joiForUserReg.validate(req.body);
-
   validationErrorResponse(error, res);
 
   const userFound = await findUserByEmail(value.email);
