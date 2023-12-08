@@ -1,7 +1,6 @@
-
 const { notFoundResponse } = require("../../helpers");
 
-const { getContactById } = require("../../service");
+const { getContactById } = require("../../services");
 
 const getById = async (req, res) => {
   const { id } = req.params;

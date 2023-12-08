@@ -1,4 +1,4 @@
-const { updateContact } = require("../service");
+const { updateContact } = require("../services");
 
 const invalidIdErrorResponse = (error, res) => {
   res.status(400).json({

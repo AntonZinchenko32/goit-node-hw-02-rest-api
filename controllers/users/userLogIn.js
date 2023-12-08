@@ -1,0 +1,48 @@
+const { joiForUserReg } = require("../../services/schemas");
+const { findUserByEmail } = require("../../services");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { SECRET } = require("../../constants");
+
+const logUser = async (req, res) => {
+  const { error, value } = joiForUserReg.validate(req.body);
+  if (error)
+    return res.status(400).json({
+      Status: "400 Bad Request",
+      "Content-Type": "application/json",
+      ResponseBody: error.message,
+    });
+
+  const userFound = await findUserByEmail(value.email);
+
+  const { id, email, password, subscription } = userFound;
+
+  const arePasswordEqual = await bcrypt.compare(value.password, password);
+
+  if (!userFound || !arePasswordEqual)
+    return res.status(401).json({
+      Status: "401 Unauthorized",
+      ResponseBody: {
+        message: "Email or password is wrong",
+      },
+    });
+  const payload = {
+    id,
+    email,
+  };
+
+  const token = jwt.sign(payload, SECRET, { expiresIn: "1h" });
+  res.status(200).json({
+    Status: "200 OK",
+    "Content-Type": "application/json",
+    ResponseBody: {
+      token,
+      user: {
+        email,
+        subscription,
+      },
+    },
+  });
+};
+
+module.exports = { logUser };

@@ -1,7 +1,6 @@
-const { removeContact } = require("../../service");
+const { removeContact } = require("../../services");
 
 const { notFoundResponse } = require("../../helpers");
-
 
 const remove = async (req, res) => {
   const { id } = req.params;

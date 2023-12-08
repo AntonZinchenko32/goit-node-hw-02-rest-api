@@ -3,6 +3,7 @@ const {
   DB_MONGO_USER,
   DB_MONGO_PASSWORD,
   DB_MONGO_DATABASE,
+  SECRET,
 } = require("./env");
 
 module.exports = {
@@ -10,4 +11,5 @@ module.exports = {
   DB_MONGO_USER,
   DB_MONGO_PASSWORD,
   DB_MONGO_DATABASE,
+  SECRET,
 };

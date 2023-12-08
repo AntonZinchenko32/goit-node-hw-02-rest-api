@@ -1,5 +1,5 @@
-const { joiForPosting } = require("../../service/schemas");
-const { createContact } = require("../../service");
+const { joiForPosting } = require("../../services/schemas");
+const { createContact } = require("../../services");
 
 const create = async (req, res, next) => {
   const { error, value } = joiForPosting.validate(req.body);

@@ -1,5 +1,5 @@
-const { joiForUserReg } = require("../../service/schemas");
-const { findUserByEmail, createUser } = require("../../service");
+const { joiForUserReg } = require("../../services/schemas");
+const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 
 const regUser = async (req, res) => {
