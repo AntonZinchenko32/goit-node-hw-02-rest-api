@@ -24,5 +24,11 @@ const user = new Schema(
   { versionKey: false }
 );
 
+user.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
 const User = model("user", user);
 module.exports = User;
