@@ -14,14 +14,14 @@ const { errorWrapper, errorWrapperWithIdCheck } = require("../../helpers");
 
 router.get("/", auth, errorWrapper(get));
 
-router.get("/:id", errorWrapperWithIdCheck(getById));
+router.get("/:id", auth, errorWrapperWithIdCheck(getById));
 
-router.post("/", errorWrapper(create));
+router.post("/", auth, errorWrapper(create));
 
-router.delete("/:id", errorWrapperWithIdCheck(remove));
+router.delete("/:id", auth, errorWrapperWithIdCheck(remove));
 
-router.put("/:id", update);
+router.put("/:id", auth, update);
 
-router.patch("/:id/favorite", updateStatus);
+router.patch("/:id/favorite", auth, updateStatus);
 
 module.exports = router;
