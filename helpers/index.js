@@ -37,6 +37,14 @@ const validationErrorResponse = (error, res) => {
       ResponseBody: error.message,
     });
 };
+const unauthorizedErrorResponse = (res) =>
+  res.status(401).json({
+    Status: "401 Unauthorized",
+    "Content-Type": "application/json",
+    ResponseBody: {
+      message: "Not authorized",
+    },
+  });
 
 const updateContactFields = async (id, body, res) => {
   try {
@@ -59,4 +67,5 @@ module.exports = {
   errorWrapper,
   errorWrapperWithIdCheck,
   validationErrorResponse,
+  unauthorizedErrorResponse,
 };

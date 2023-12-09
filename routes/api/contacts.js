@@ -9,9 +9,10 @@ const {
   update,
   updateStatus,
 } = require("../../controllers/contacts");
+const { auth } = require("../../middlewares");
 const { errorWrapper, errorWrapperWithIdCheck } = require("../../helpers");
 
-router.get("/", errorWrapper(get));
+router.get("/", auth, errorWrapper(get));
 
 router.get("/:id", errorWrapperWithIdCheck(getById));
 
