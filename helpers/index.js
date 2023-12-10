@@ -11,7 +11,6 @@ const errorWrapper = (func) => async (req, res, next) => {
   try {
     await func(req, res);
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -30,11 +29,10 @@ const notFoundResponse = (res) =>
   });
 
 const validationErrorResponse = (error, res) => {
+  const { message } = error;
   if (error)
     return res.status(400).json({
-      Status: "400 Bad Request",
-      "Content-Type": "application/json",
-      ResponseBody: error.message,
+      message,
     });
 };
 const unauthorizedErrorResponse = (res) =>
