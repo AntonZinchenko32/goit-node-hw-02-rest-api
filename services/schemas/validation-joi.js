@@ -16,7 +16,7 @@ const joiForPatching = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const joiForUserReg = Joi.object({
+const joiForUserRegLog = Joi.object({
   email: Joi.required(),
   password: Joi.required(),
   subscription: Joi.any(),
@@ -27,5 +27,5 @@ module.exports = {
   joiForPosting,
   joiForPuting,
   joiForPatching,
-  joiForUserReg,
+  joiForUserRegLog,
 };

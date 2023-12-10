@@ -1,10 +1,10 @@
-const { joiForUserReg } = require("../../services/schemas");
+const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationErrorResponse } = require("../../helpers");
 
 const regUser = async (req, res) => {
-  const { error, value } = joiForUserReg.validate(req.body);
+  const { error, value } = joiForUserRegLog.validate(req.body);
   if (error) validationErrorResponse(error, res);
 
   const userFound = await findUserByEmail(value.email);

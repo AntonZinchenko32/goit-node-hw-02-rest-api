@@ -2,7 +2,7 @@ const {
   joiForPosting,
   joiForPuting,
   joiForPatching,
-  joiForUserReg,
+  joiForUserRegLog,
 } = require("./validation-joi");
 const Contact = require("./contact");
 const User = require("./user");
@@ -11,7 +11,7 @@ module.exports = {
   joiForPosting,
   joiForPuting,
   joiForPatching,
-  joiForUserReg,
+  joiForUserRegLog,
   Contact,
   User,
 };

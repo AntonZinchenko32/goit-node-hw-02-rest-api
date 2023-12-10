@@ -37,11 +37,11 @@ const validationErrorResponse = (error, res) => {
 };
 const unauthorizedErrorResponse = (res) =>
   res.status(401).json({
-    Status: "401 Unauthorized",
-    "Content-Type": "application/json",
-    ResponseBody: {
-      message: "Not authorized",
-    },
+    message: "Not authorized",
+  });
+const emailOrPasswordWrongError = (res) =>
+  res.status(401).json({
+    message: "Email or password is wrong",
   });
 
 const updateContactFields = async (id, body, res) => {
@@ -66,4 +66,5 @@ module.exports = {
   errorWrapperWithIdCheck,
   validationErrorResponse,
   unauthorizedErrorResponse,
+  emailOrPasswordWrongError,
 };
