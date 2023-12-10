@@ -1,17 +1,26 @@
-const { updateContact } = require("../service");
+const { updateContact } = require("../services");
 
-const invalidIdErrorResponse = (error, res) => {
+const validationError = (error, res) =>
   res.status(400).json({
-    status: 400,
     message: error.message,
   });
-};
+const notFound = (res) =>
+  res.status(404).json({
+    message: "Not found",
+  });
+const notAthorized = (res) =>
+  res.status(401).json({
+    message: "Not authorized",
+  });
+const wrongEmailOrPassword = (res) =>
+  res.status(401).json({
+    message: "Email or password is wrong",
+  });
 
 const errorWrapper = (func) => async (req, res, next) => {
   try {
     await func(req, res);
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -19,34 +28,26 @@ const errorWrapperWithIdCheck = (func) => async (req, res) => {
   try {
     await func(req, res);
   } catch (e) {
-    invalidIdErrorResponse(e, res);
+    validationError(e, res);
   }
 };
-
-const notFoundResponse = (res) =>
-  res.status(404).json({
-    status: 404,
-    message: "Not found",
-  });
 
 const updateContactFields = async (id, body, res) => {
   try {
     const updatedContact = await updateContact(id, body);
-    if (updatedContact)
-      res.json({
-        status: 200,
-        updatedContact,
-      });
-    else notFoundResponse(res);
+    if (updatedContact) return res.status(200).json(updatedContact);
+    notFound(res);
   } catch (e) {
-    invalidIdErrorResponse(e, res);
+    validationError(e, res);
   }
 };
 
 module.exports = {
-  notFoundResponse,
-  invalidIdErrorResponse,
+  notFound,
   updateContactFields,
   errorWrapper,
   errorWrapperWithIdCheck,
+  validationError,
+  notAthorized,
+  wrongEmailOrPassword,
 };

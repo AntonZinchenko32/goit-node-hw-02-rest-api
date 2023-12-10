@@ -16,8 +16,16 @@ const joiForPatching = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
+const joiForUserRegLog = Joi.object({
+  email: Joi.required(),
+  password: Joi.required(),
+  subscription: Joi.any(),
+  token: Joi.any(),
+});
+
 module.exports = {
   joiForPosting,
   joiForPuting,
   joiForPatching,
+  joiForUserRegLog,
 };

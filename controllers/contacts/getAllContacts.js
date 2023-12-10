@@ -1,10 +1,8 @@
-const { getAllContacts } = require("../../service");
+const { getAllContacts } = require("../../services");
 
-const get = async (req, res, next) => {
-  const data = await getAllContacts();
-  res.json({
-    status: 200,
-    data,
-  });
+const get = async (req, res) => {
+  const { _id: owner } = req.user;
+  const data = await getAllContacts({ owner });
+  res.json(data);
 };
 module.exports = { get };
