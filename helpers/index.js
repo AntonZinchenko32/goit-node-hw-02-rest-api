@@ -35,12 +35,8 @@ const errorWrapperWithIdCheck = (func) => async (req, res) => {
 const updateContactFields = async (id, body, res) => {
   try {
     const updatedContact = await updateContact(id, body);
-    if (updatedContact)
-      res.json({
-        status: 200,
-        updatedContact,
-      });
-    else notFound(res);
+    if (updatedContact) return res.status(200).json(updatedContact);
+    notFound(res);
   } catch (e) {
     validationError(e, res);
   }

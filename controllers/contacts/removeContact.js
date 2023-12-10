@@ -7,12 +7,12 @@ const remove = async (req, res) => {
 
   const contactFound = await removeContact(id);
 
-  if (contactFound) {
-    res.json({
-      status: 200,
+  if (contactFound)
+    return res.status(200).json({
       message: "contact deleted",
     });
-  } else notFound(res);
+
+  notFound(res);
 };
 
 module.exports = { remove };
