@@ -5,7 +5,7 @@ const { User } = require("../../services/schemas");
 const logOutUser = async (req, res, next) => {
   const user = await User.findById(req.user._id);
 
-  if (!user || !user.token) return notAthorized(res);
+  if (!user) return notAthorized(res);
 
   await updateUser(req.user._id, { token: null });
 
