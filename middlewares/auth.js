@@ -14,6 +14,7 @@ const auth = async (req, res, next) => {
 
     const user = await User.findById(id);
     if (!user) return notAthorized(res);
+
     req.user = user;
     next();
   } catch {

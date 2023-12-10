@@ -3,12 +3,11 @@ const { notAthorized } = require("../../helpers");
 const { User } = require("../../services/schemas");
 
 const logOutUser = async (req, res, next) => {
-  const id = req.user._id;
-  const user = await User.findById(id);
+  const user = await User.findById(req.user._id);
 
-  if (!user) return notAthorized(res);
+  if (!user || !user.token) return notAthorized(res);
 
-  await updateUser(id, { token: null });
+  await updateUser(req.user._id, { token: null });
 
   res.status(204).json({
     Status: "204 No Content",
