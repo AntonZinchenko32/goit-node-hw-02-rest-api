@@ -1,15 +1,11 @@
-const { unauthorizedErrorResponse } = require("../../helpers");
+const { notAthorized } = require("../../helpers");
 
 const getUser = (req, res) => {
-  if (!req.user) unauthorizedErrorResponse(res);
+  if (!req.user) return notAthorized(res);
   const { email, subscription } = req.user;
   res.status(200).json({
-    Status: "200 OK",
-    "Content-Type": "application/json",
-    ResponseBody: {
-      email,
-      subscription,
-    },
+    email,
+    subscription,
   });
 };
 module.exports = { getUser };

@@ -1,11 +1,11 @@
 const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
-const { validationErrorResponse } = require("../../helpers");
+const { validationError } = require("../../helpers");
 
 const regUser = async (req, res) => {
   const { error, value } = joiForUserRegLog.validate(req.body);
-  if (error) validationErrorResponse(error, res);
+  if (error) return validationError(error, res);
 
   const userFound = await findUserByEmail(value.email);
 

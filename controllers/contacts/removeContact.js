@@ -1,6 +1,6 @@
 const { removeContact } = require("../../services");
 
-const { notFoundResponse } = require("../../helpers");
+const { notFound } = require("../../helpers");
 
 const remove = async (req, res) => {
   const { id } = req.params;
@@ -12,7 +12,7 @@ const remove = async (req, res) => {
       status: 200,
       message: "contact deleted",
     });
-  } else notFoundResponse(res);
+  } else notFound(res);
 };
 
 module.exports = { remove };

@@ -1,4 +1,4 @@
-const { notFoundResponse } = require("../../helpers");
+const { notFound } = require("../../helpers");
 
 const { getContactById } = require("../../services");
 
@@ -11,6 +11,6 @@ const getById = async (req, res) => {
       status: 200,
       contactFound,
     });
-  else notFoundResponse(res);
+  else notFound(res);
 };
 module.exports = { getById };
