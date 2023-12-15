@@ -3,6 +3,7 @@ const logger = require("morgan");
 const cors = require("cors");
 
 const { contactsRouter, usersRouter } = require("./routes/api");
+const { UPLOAD_DIR } = require("./constants");
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+app.use("/uploads", express.static(UPLOAD_DIR));
 app.use("/api/contacts", contactsRouter);
 app.use("/users", usersRouter);
 
