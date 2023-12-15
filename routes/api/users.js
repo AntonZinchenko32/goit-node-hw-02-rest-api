@@ -1,5 +1,4 @@
 const express = require("express");
-const { upload } = require("../../middlewares");
 const router = express.Router();
 const {
   regUser,
@@ -9,7 +8,7 @@ const {
   uploadFile,
 } = require("../../controllers/users");
 const { errorWrapper } = require("../../helpers");
-const { auth } = require("../../middlewares");
+const { auth, upload } = require("../../middlewares");
 
 router.post("/register", errorWrapper(regUser));
 router.post("/login", errorWrapper(logUser));

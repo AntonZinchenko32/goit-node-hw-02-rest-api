@@ -5,7 +5,7 @@ const {
   DB_MONGO_DATABASE,
   SECRET,
 } = require("./env");
-const { TEMP_UPLOAD_DIR } = require("./common");
+const { TEMP_UPLOAD_DIR, UPLOAD_DIR } = require("./common");
 
 module.exports = {
   DB_MONGO_HOST,
@@ -14,4 +14,5 @@ module.exports = {
   DB_MONGO_DATABASE,
   SECRET,
   TEMP_UPLOAD_DIR,
+  UPLOAD_DIR,
 };
