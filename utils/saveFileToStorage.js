@@ -7,6 +7,6 @@ const saveFileToStorage = async (file) => {
   const newPathName = path.join(UPLOAD_DIR, file.filename);
   await fs.writeFile(newPathName, fileBuffer);
   await fs.unlink(file.path);
-  return "http://localhost:3000/uploads/" + file.filename;
+  return "http://localhost:3000/avatars/" + file.filename;
 };
 module.exports = { saveFileToStorage };

@@ -5,8 +5,8 @@ const {
   logUser,
   logOutUser,
   getUser,
-  uploadFile,
-} = require("../../controllers/users");
+} = require("../../controllers/auth");
+const { uploadFile } = require("../../controllers/users");
 const { errorWrapper } = require("../../helpers");
 const { auth, upload } = require("../../middlewares");
 
@@ -14,6 +14,6 @@ router.post("/register", errorWrapper(regUser));
 router.post("/login", errorWrapper(logUser));
 router.post("/logout", auth, errorWrapper(logOutUser));
 router.get("/current", auth, errorWrapper(getUser));
-router.put("/upload", auth, upload.single("avatar"), errorWrapper(uploadFile));
+router.put("/avatars", auth, upload.single("avatar"), errorWrapper(uploadFile));
 
 module.exports = router;
