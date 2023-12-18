@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const {
+  HOST_URL,
+  PORT,
   DB_MONGO_HOST,
   DB_MONGO_USER,
   DB_MONGO_PASSWORD,
@@ -30,8 +32,18 @@ if (!SECRET) {
   console.log("SECRET is not set");
   process.exit(1);
 }
+if (!HOST_URL) {
+  console.log("HOST_URL is not set");
+  process.exit(1);
+}
+if (!PORT) {
+  console.log("PORT is not set");
+  process.exit(1);
+}
 
 module.exports = {
+  HOST_URL,
+  PORT,
   DB_MONGO_HOST,
   DB_MONGO_USER,
   DB_MONGO_PASSWORD,

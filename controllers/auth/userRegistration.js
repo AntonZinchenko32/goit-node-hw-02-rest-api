@@ -3,6 +3,8 @@ const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationError } = require("../../helpers");
 
+const gravatar = require("gravatar");
+
 const regUser = async (req, res) => {
   const { error, value } = joiForUserRegLog.validate(req.body);
   if (error) return validationError(error, res);
@@ -16,7 +18,16 @@ const regUser = async (req, res) => {
 
   const { password, ...rest } = value;
   const passwordHash = await bcrypt.hash(password, 10);
-  const newUser = await createUser({ ...rest, password: passwordHash });
+  const avatar = gravatar.url(
+    value.email,
+    { s: "180", r: "x", d: "retro" },
+    true
+  );
+  const newUser = await createUser({
+    ...rest,
+    password: passwordHash,
+    avatarURL: avatar,
+  });
   const { email, subscription } = newUser;
 
   res.status(201).json({
