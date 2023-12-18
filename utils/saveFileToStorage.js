@@ -1,4 +1,4 @@
-const fs = require("fs/promises");
+
 const path = require("path");
 const { UPLOAD_DIR } = require("../constants");
 const Jimp = require("jimp");
@@ -16,7 +16,6 @@ const saveFileToStorage = async (userId, file) => {
       newPathName = path.join(UPLOAD_DIR, newFileName);
       image.resize(250, 250);
       await image.writeAsync(newPathName);
-      await fs.unlink(file.path);
     })
     .catch((err) => {
       console.log(err.message);
