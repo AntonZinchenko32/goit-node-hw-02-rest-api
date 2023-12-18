@@ -2,6 +2,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const { UPLOAD_DIR } = require("../constants");
 const Jimp = require("jimp");
+const { HOST_URL, PORT } = require("../constants");
 
 const saveFileToStorage = async (userId, file) => {
   let newPathName;
@@ -20,6 +21,6 @@ const saveFileToStorage = async (userId, file) => {
     .catch((err) => {
       console.log(err.message);
     });
-  return "http://localhost:3000/avatars/" + newFileName;
+  return `http://${HOST_URL}:${PORT}/avatars/${newFileName}`;
 };
 module.exports = { saveFileToStorage };
