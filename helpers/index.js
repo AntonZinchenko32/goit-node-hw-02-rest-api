@@ -8,6 +8,7 @@ const notFound = (res) =>
   res.status(404).json({
     message: "Not found",
   });
+
 const notAthorized = (res) =>
   res.status(401).json({
     message: "Not authorized",
