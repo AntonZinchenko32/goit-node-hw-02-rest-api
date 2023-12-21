@@ -11,6 +11,10 @@ const logUser = async (req, res) => {
 
   const userFound = await findUserByEmail(value.email);
   if (!userFound) return wrongEmailOrPassword(res);
+  if (!userFound.verify)
+    return res.status(400).json({
+      message: "Unverified user",
+    });
 
   const arePasswordEqual = await bcrypt.compare(
     value.password,
