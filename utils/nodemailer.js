@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const { HOST_URL, PORT } = require("../constants");
+const { HOST_URL, PORT, NODEMAILER_CONFIG_PASSWORD } = require("../constants");
 
 const config = {
   host: "smtp.meta.ua",
@@ -7,7 +7,7 @@ const config = {
   secure: true,
   auth: {
     user: "zentik@meta.ua",
-    pass: "Kamakura1192",
+    pass: NODEMAILER_CONFIG_PASSWORD,
   },
 };
 
@@ -16,7 +16,7 @@ const emailOptionsBuilder = (recipient, token) => {
     from: "zentik@meta.ua",
     to: recipient,
     subject: "Verification",
-    text: `Please follow this link http://${HOST_URL}:${PORT}/users/verify/${token} to verify your mailbox`,
+    text: `To verify your email, please follow this link - http://${HOST_URL}:${PORT}/users/verify/${token}`,
   };
 };
 

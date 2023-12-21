@@ -6,6 +6,7 @@ const {
   DB_MONGO_PASSWORD,
   DB_MONGO_DATABASE,
   SECRET,
+  NODEMAILER_CONFIG_PASSWORD,
 } = require("./env");
 const { TEMP_UPLOAD_DIR, UPLOAD_DIR } = require("./common");
 
@@ -19,4 +20,5 @@ module.exports = {
   SECRET,
   TEMP_UPLOAD_DIR,
   UPLOAD_DIR,
+  NODEMAILER_CONFIG_PASSWORD,
 };

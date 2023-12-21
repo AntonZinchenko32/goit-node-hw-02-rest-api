@@ -10,6 +10,7 @@ const {
   DB_MONGO_PASSWORD,
   DB_MONGO_DATABASE,
   SECRET,
+  NODEMAILER_CONFIG_PASSWORD,
 } = process.env;
 
 if (!DB_MONGO_HOST) {
@@ -40,6 +41,10 @@ if (!PORT) {
   console.log("PORT is not set");
   process.exit(1);
 }
+if (!NODEMAILER_CONFIG_PASSWORD) {
+  console.log("NODEMAILER_CONFIG_PASSWORD is not set");
+  process.exit(1);
+}
 
 module.exports = {
   HOST_URL,
@@ -49,4 +54,5 @@ module.exports = {
   DB_MONGO_PASSWORD,
   DB_MONGO_DATABASE,
   SECRET,
+  NODEMAILER_CONFIG_PASSWORD,
 };
