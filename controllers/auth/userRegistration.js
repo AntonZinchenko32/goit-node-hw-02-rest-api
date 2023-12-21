@@ -1,6 +1,6 @@
 const { nanoid } = require("nanoid");
 const { joiForUserRegLog } = require("../../services/schemas");
-const { findUserByFieldName, createUser } = require("../../services");
+const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationError } = require("../../helpers");
 const { transporter, emailOptionsBuilder } = require("../../utils");
@@ -11,7 +11,7 @@ const regUser = async (req, res) => {
   const { error, value } = joiForUserRegLog.validate(req.body);
   if (error) return validationError(error, res);
 
-  const userFound = await findUserByFieldName(value.email);
+  const userFound = await findUserByEmail(value.email);
 
   if (userFound)
     return res.status(409).json({
