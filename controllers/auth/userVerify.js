@@ -1,9 +1,9 @@
-const { findUserByVerificToken, updateUser } = require("../../services");
+const { findUserByFieldName, updateUser } = require("../../services");
 
 const verifyUser = async (req, res) => {
   const { verificationToken } = req.params;
 
-  const userFound = await findUserByVerificToken(verificationToken);
+  const userFound = await findUserByFieldName(verificationToken);
   if (!userFound)
     return res.status(404).json({
       message: "User not found",

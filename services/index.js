@@ -15,8 +15,8 @@ const updateContact = (id, fields) => {
 const removeContact = (id) => {
   return Contact.findByIdAndDelete({ _id: id });
 };
-const findUserByEmail = (email) => {
-  return User.findOne({ email: email });
+const findUserByFieldName = (fieldName) => {
+  return User.findOne({ fieldName: fieldName });
 };
 const createUser = (body) => {
   return User.create(body);
@@ -24,17 +24,13 @@ const createUser = (body) => {
 const updateUser = (id, fields) => {
   return User.findByIdAndUpdate({ _id: id }, fields, { new: true });
 };
-const findUserByVerificToken = (verificationToken) => {
-  return User.findOne({ verificationToken: verificationToken });
-};
 module.exports = {
   getAllContacts,
   getContactById,
   createContact,
   updateContact,
   removeContact,
-  findUserByEmail,
+  findUserByFieldName,
   createUser,
   updateUser,
-  findUserByVerificToken,
 };

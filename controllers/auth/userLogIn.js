@@ -1,5 +1,5 @@
 const { joiForUserRegLog } = require("../../services/schemas");
-const { findUserByEmail, updateUser } = require("../../services");
+const { findUserByFieldName, updateUser } = require("../../services");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { SECRET } = require("../../constants");
@@ -9,7 +9,7 @@ const logUser = async (req, res) => {
   const { error, value } = joiForUserRegLog.validate(req.body);
   if (error) return validationError(error, res);
 
-  const userFound = await findUserByEmail(value.email);
+  const userFound = await findUserByFieldName(value.email);
   if (!userFound) return wrongEmailOrPassword(res);
   if (!userFound.verify)
     return res.status(400).json({
