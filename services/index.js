@@ -24,6 +24,9 @@ const createUser = (body) => {
 const updateUser = (id, fields) => {
   return User.findByIdAndUpdate({ _id: id }, fields, { new: true });
 };
+const findUserByverificationToken = (verificationToken) => {
+  return User.findOne({ verificationToken: verificationToken });
+};
 module.exports = {
   getAllContacts,
   getContactById,
@@ -33,4 +36,5 @@ module.exports = {
   findUserByEmail,
   createUser,
   updateUser,
+  findUserByverificationToken,
 };

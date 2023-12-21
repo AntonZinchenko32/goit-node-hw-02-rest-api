@@ -23,9 +23,14 @@ const joiForUserRegLog = Joi.object({
   token: Joi.any(),
 });
 
+const joiForResendVerificLetter = Joi.object({
+  email: Joi.required(),
+});
+
 module.exports = {
   joiForPosting,
   joiForPuting,
   joiForPatching,
   joiForUserRegLog,
+  joiForResendVerificLetter,
 };

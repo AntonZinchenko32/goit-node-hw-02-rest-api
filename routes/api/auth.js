@@ -5,6 +5,8 @@ const {
   logUser,
   logOutUser,
   getUser,
+  verifyUser,
+  resendVerificLetter,
 } = require("../../controllers/auth");
 const { uploadFile } = require("../../controllers/users");
 const { errorWrapper } = require("../../helpers");
@@ -20,5 +22,7 @@ router.patch(
   upload.single("avatar"),
   errorWrapper(uploadFile)
 );
+router.get("/verify/:verificationToken", errorWrapper(verifyUser));
+router.post("/verify", errorWrapper(resendVerificLetter));
 
 module.exports = router;

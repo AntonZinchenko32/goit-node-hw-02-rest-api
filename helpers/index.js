@@ -1,4 +1,5 @@
 const { updateContact } = require("../services");
+const { transporter, emailOptionsBuilder } = require("../utils");
 
 const validationError = (error, res) =>
   res.status(400).json({
@@ -8,6 +9,7 @@ const notFound = (res) =>
   res.status(404).json({
     message: "Not found",
   });
+
 const notAthorized = (res) =>
   res.status(401).json({
     message: "Not authorized",
@@ -42,6 +44,12 @@ const updateContactFields = async (id, body, res) => {
   }
 };
 
+const sendMailWithErrorHandle = (email, verificationToken) =>
+  transporter
+    .sendMail(emailOptionsBuilder(email, verificationToken))
+    .then((info) => console.log(info))
+    .catch((err) => console.log(err));
+
 module.exports = {
   notFound,
   updateContactFields,
@@ -50,4 +58,5 @@ module.exports = {
   validationError,
   notAthorized,
   wrongEmailOrPassword,
+  sendMailWithErrorHandle,
 };
