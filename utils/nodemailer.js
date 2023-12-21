@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { HOST_URL, PORT } = require("../constants");
 
 const config = {
   host: "smtp.meta.ua",
@@ -10,12 +11,15 @@ const config = {
   },
 };
 
-const transporter = nodemailer.createTransport(config);
-const emailOptions = {
-  from: "zentik@meta.ua",
-  to: "lenapst@gmail.com",
-  subject: "Verification letter",
-  text: "Please follow the link to verify your mailbox",
+const emailOptionsBuilder = (recipient, token) => {
+  return {
+    from: "zentik@meta.ua",
+    to: recipient,
+    subject: "Verification",
+    text: `Please follow this link http://${HOST_URL}:${PORT}/users/verify/${token} to verify your mailbox`,
+  };
 };
 
-module.exports = { transporter, emailOptions };
+const transporter = nodemailer.createTransport(config);
+
+module.exports = { transporter, emailOptionsBuilder };

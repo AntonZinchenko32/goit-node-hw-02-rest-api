@@ -1,8 +1,9 @@
+const { nanoid } = require("nanoid");
 const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationError } = require("../../helpers");
-const { transporter, emailOptions } = require("../../utils");
+const { transporter, emailOptionsBuilder } = require("../../utils");
 
 const gravatar = require("gravatar");
 
@@ -28,12 +29,12 @@ const regUser = async (req, res) => {
     ...rest,
     password: passwordHash,
     avatarURL: avatar,
+    verificationToken: nanoid(),
   });
-  const { email, subscription } = newUser;
+  const { email, subscription, verificationToken } = newUser;
 
-  emailOptions.to = email;
   transporter
-    .sendMail(emailOptions)
+    .sendMail(emailOptionsBuilder(email, verificationToken))
     .then((info) => console.log(info))
     .catch((err) => console.log(err));
 
