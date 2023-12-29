@@ -1,7 +1,6 @@
 const { joiForResendVerificLetter } = require("../../services/schemas");
 const { validationError } = require("../../helpers");
 const { findUserByEmail } = require("../../services");
-// const { mailSendProcess } = require("../../services/email");
 const { transporter, emailOptionsBuilder } = require("../../services/email");
 
 const resendVerificLetter = async (req, res) => {

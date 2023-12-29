@@ -3,7 +3,6 @@ const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationError } = require("../../helpers");
-// const { mailSendProcess } = require("../../services/email");
 const { transporter, emailOptionsBuilder } = require("../../services/email");
 
 const gravatar = require("gravatar");
