@@ -2,6 +2,7 @@ const { nanoid } = require("nanoid");
 const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
+
 const { validationError } = require("../../helpers");
 const { transporter, emailOptionsBuilder } = require("../../services/email");
 
