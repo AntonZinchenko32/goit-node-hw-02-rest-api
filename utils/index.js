@@ -6,7 +6,5 @@ const { transporter, emailOptionsBuilder } = require("./nodemailer");
 module.exports = {
   mongoConection,
   createDirIfNotExist,
-  saveFileToStorage,
-  transporter,
-  emailOptionsBuilder,
+  saveFileToStorage
 };

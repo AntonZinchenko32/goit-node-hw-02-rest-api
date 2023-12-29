@@ -1,6 +1,7 @@
 const { joiForResendVerificLetter } = require("../../services/schemas");
-const { validationError, sendMailWithErrorHandle } = require("../../helpers");
+const { validationError } = require("../../helpers");
 const { findUserByEmail } = require("../../services");
+const { transporter, emailOptionsBuilder } = require("../../services/email");
 
 const resendVerificLetter = async (req, res) => {
   const { error, value } = joiForResendVerificLetter.validate(req.body);
@@ -19,10 +20,16 @@ const resendVerificLetter = async (req, res) => {
       message: "Verification has already been passed",
     });
 
-  sendMailWithErrorHandle(email, verificationToken);
-
-  res.status(200).json({
-    message: "Verification email sent",
-  });
+  try {
+    await transporter.sendMail(emailOptionsBuilder(email, verificationToken));
+    res.status(200).json({
+      message: "Verification email sent",
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(error.responseCode).json({
+      error,
+    });
+  }
 };
 module.exports = { resendVerificLetter };
