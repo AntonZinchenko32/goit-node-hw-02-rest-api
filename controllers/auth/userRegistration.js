@@ -3,7 +3,8 @@ const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationError } = require("../../helpers");
-const { mailSendProcess } = require("../../services/email");
+// const { mailSendProcess } = require("../../services/email");
+const { transporter, emailOptionsBuilder } = require("../../services/email");
 
 const gravatar = require("gravatar");
 
@@ -22,7 +23,9 @@ const regUser = async (req, res) => {
 
   let isMailSentSuccess;
   try {
-    await mailSendProcess(value.email, verificationToken);
+    await transporter.sendMail(
+      emailOptionsBuilder(value.email, verificationToken)
+    );
     isMailSentSuccess = true;
   } catch (error) {
     console.log(error.message);

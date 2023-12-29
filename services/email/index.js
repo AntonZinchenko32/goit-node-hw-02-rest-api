@@ -1,3 +1,4 @@
-const { mailSendProcess } = require("./sendMail");
+// const { mailSendProcess } = require("./sendMail");
+const { transporter, emailOptionsBuilder } = require("./nodemailer");
 
-module.exports = { mailSendProcess };
+module.exports = { transporter, emailOptionsBuilder };

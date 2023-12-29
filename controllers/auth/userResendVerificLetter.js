@@ -1,7 +1,8 @@
 const { joiForResendVerificLetter } = require("../../services/schemas");
 const { validationError } = require("../../helpers");
 const { findUserByEmail } = require("../../services");
-const { mailSendProcess } = require("../../services/email");
+// const { mailSendProcess } = require("../../services/email");
+const { transporter, emailOptionsBuilder } = require("../../services/email");
 
 const resendVerificLetter = async (req, res) => {
   const { error, value } = joiForResendVerificLetter.validate(req.body);
@@ -21,7 +22,7 @@ const resendVerificLetter = async (req, res) => {
     });
 
   try {
-    await mailSendProcess(email, verificationToken);
+    await transporter.sendMail(emailOptionsBuilder(email, verificationToken));
     res.status(200).json({
       message: "Verification email sent",
     });
