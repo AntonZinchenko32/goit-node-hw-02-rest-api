@@ -3,7 +3,7 @@ const { joiForUserRegLog } = require("../../services/schemas");
 const { findUserByEmail, createUser } = require("../../services");
 const bcrypt = require("bcrypt");
 const { validationError } = require("../../helpers");
-const { transporter, emailOptionsBuilder } = require("../../utils");
+const { mailSendProcess } = require("../../services/email");
 
 const gravatar = require("gravatar");
 
@@ -20,41 +20,40 @@ const regUser = async (req, res) => {
 
   const verificationToken = nanoid();
 
-  transporter.sendMail(
-    emailOptionsBuilder(value.email, verificationToken),
-    async (err, info) => {
-      if (err) {
-        console.log(err);
-        res.status(err.responseCode).json({
-          err,
-        });
-      } else {
-        console.log(info);
+  let isMailSentSuccess;
+  try {
+    await mailSendProcess(value.email, verificationToken);
+    isMailSentSuccess = true;
+  } catch (error) {
+    console.log(error.message);
+    res.status(error.responseCode).json({
+      error,
+    });
+  }
 
-        const { password, ...rest } = value;
-        const passwordHash = await bcrypt.hash(password, 10);
-        const avatar = gravatar.url(
-          value.email,
-          { s: "180", r: "x", d: "retro" },
-          true
-        );
-        const newUser = await createUser({
-          ...rest,
-          password: passwordHash,
-          avatarURL: avatar,
-          verificationToken,
-        });
-        const { email, subscription } = newUser;
+  if (isMailSentSuccess) {
+    const { password, ...rest } = value;
+    const passwordHash = await bcrypt.hash(password, 10);
+    const avatar = gravatar.url(
+      value.email,
+      { s: "180", r: "x", d: "retro" },
+      true
+    );
+    const newUser = await createUser({
+      ...rest,
+      password: passwordHash,
+      avatarURL: avatar,
+      verificationToken,
+    });
+    const { email, subscription } = newUser;
 
-        res.status(201).json({
-          user: {
-            email,
-            subscription,
-          },
-        });
-      }
-    }
-  );
+    res.status(201).json({
+      user: {
+        email,
+        subscription,
+      },
+    });
+  }
 };
 
 module.exports = { regUser };
