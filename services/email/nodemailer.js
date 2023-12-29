@@ -1,5 +1,9 @@
 const nodemailer = require("nodemailer");
-const { HOST_URL, PORT, NODEMAILER_CONFIG_PASSWORD } = require("../constants");
+const {
+  HOST_URL,
+  PORT,
+  NODEMAILER_CONFIG_PASSWORD,
+} = require("../../constants");
 
 const config = {
   host: "smtp-relay.brevo.com",
